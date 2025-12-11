@@ -7,7 +7,7 @@ class ProductController {
 
     async getAllProducts() {
         try {
-            return await productDao.getAllProductDao();
+            return await productDao.getAllProductDao().lean();
         } catch (error) {
             throw new Error("Error al buscar los productos");
         }

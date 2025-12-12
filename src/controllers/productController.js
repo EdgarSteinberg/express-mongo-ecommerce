@@ -7,7 +7,7 @@ class ProductController {
 
     async getAllProducts() {
         try {
-            return await productDao.getAllProductDao().lean();
+            return await productDao.getAllProductDao();
         } catch (error) {
             throw new Error("Error al buscar los productos");
         }
@@ -31,21 +31,24 @@ class ProductController {
     }
 
     async createProduct(product) {
-        const { title, description, code, price, stock, category, image } = product;
+        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage } = product;
 
-        if (!title || !description || !code || !price || !stock || !category) {
-            throw new Error("Todos los campos son obligatorios");
+        if (!title || !shortDescription || !longDescription || !price || !stock || !brand || !category) {
+            throw new Error("Todos los campos obligatorios deben completarse.");
         }
 
         try {
             return await productDao.createProductDao({
                 title,
-                description,
-                code,
+                shortDescription,
+                longDescription,
                 price,
                 stock,
+                brand,
                 category,
-                image
+                discount,
+                tags,
+                mainImage
             });
         } catch (error) {
             console.log(error.message);

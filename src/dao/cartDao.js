@@ -4,7 +4,7 @@ class CartDao {
 
     // Obtener todos los carritos
     async getAllCartsDao() {
-        return await cartModel.find();
+        return await cartModel.find().lean();
     }
 
     // Obtener carrito por ID

@@ -4,6 +4,7 @@ import CartController from "../controllers/cartController.js";
 const cartController = new CartController();
 const router = Router();
 
+//Buscar todos los carritos
 router.get('/', async (req, res) => {
     try {
         const result = await cartController.getAllCarts();
@@ -13,6 +14,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Buscar carrito por su CID
 router.get('/:cid', async (req, res) => {
     const { cid } = req.params;
     try {
@@ -32,6 +34,49 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Agregar producto al carrito
+router.post('/:cid/product/:pid', async (req, res) => {
+    const { cid, pid } = req.params;
+    const quantity = req.body?.quantity ?? 1;
+
+    try {
+        const result = await cartController.addProductInCart(cid, pid, quantity);
+        res.status(201).send({ status: 'success', payload: result });
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+});
+
+// Remover producto del carrito
+router.delete('/:cid/product/:pid', async (req, res) => {
+    const { cid, pid } = req.params;
+
+    try {
+        const result = await cartController.removeProductInCart(cid, pid);
+        res.status(200).send({ status: 'success', payload: result });
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+});
+
+// Actualizar la cantidad del producto
+router.put('/:cid/product/:pid', async (req, res) => {
+    const { cid, pid } = req.params;
+    const quantity = req.body?.quantity; // <-- NO rompe aunque req.body sea undefined
+
+    // Validación súper simple
+    if (!quantity) {
+        return res.status(400).send({ status: "error", message: "Debes enviar 'quantity' en el body" });
+    }
+
+    try {
+        const result = await cartController.updatedProductQuantity(cid, pid, quantity);
+        res.status(200).send({ status: 'success', payload: result });
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+});
+
 router.put('/:cid', async (req, res) => {
     const { cid } = req.params;
     const updated = req.body;
@@ -44,6 +89,7 @@ router.put('/:cid', async (req, res) => {
     }
 });
 
+// Remover carrito
 router.delete('/:cid', async (req, res) => {
     const { cid } = req.params;
 

@@ -16,6 +16,16 @@ class ProductDao {
         return product;
     }
 
+    // Obtener todas la categorias
+    async getAllCategoriesDao() {
+        return await productModel.distinct("category");
+    }
+
+    //Obtener el producto por categoria
+    async getProductCategoryDao(category) {
+        return await productModel.find({category: category});
+    }
+
     async createProductDao(product) {
         return await productModel.create(product);
     }

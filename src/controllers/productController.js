@@ -29,6 +29,35 @@ class ProductController {
             throw new Error(`Error al buscar el producto con PID: ${pid}`);
         }
     }
+    async getAllCategories() {
+        try {
+            return await productDao.getAllCategoriesDao()
+        } catch (error) {
+            throw new Error(`Error al obtener las categorias`)
+        }
+    }
+
+    async getProductCategory(category) {
+        if (!category) {
+            throw new Error(`Falta la categoria del producto`);
+        }
+
+        const normalizedCategory = category.toLowerCase().trim();
+
+        try {
+            const result = await productDao.getProductCategoryDao(normalizedCategory);
+
+            if (result.length === 0) {
+                throw new Error(`No existen productos en la categoría ${normalizedCategory}`);
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error(`Error al obtener la categoria ${normalizedCategory}`);
+        }
+    }
+
+
 
     async createProduct(product) {
         const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage } = product;

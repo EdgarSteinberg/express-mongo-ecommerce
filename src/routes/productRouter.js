@@ -14,6 +14,37 @@ router.get('/', async (req, res) => {
         res.status(500).json({ status: 'error', message: error.message });
     }
 });
+/* 
+// GET Categories
+router.get('/categories', async (req, res) => {
+    try {
+        const result = await productController.getAllCategories();
+        res.status(200).json({ status: 'success', payload: result });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+}); */
+
+// GET categories/ID
+router.get('/categories', async (req, res) => {
+    const { category } = req.query;
+
+    try {
+        // 👉 Si viene category, devolvemos productos
+        if (category) {
+            const result = await productController.getProductCategory(category);
+            return res.status(200).json({ status: 'success', payload: result });
+        }
+
+        // 👉 Si no viene category, devolvemos las categorías
+        const result = await productController.getAllCategories();
+        res.status(200).json({ status: 'success', payload: result });
+
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
 
 // GET by ID
 router.get('/:pid', async (req, res) => {

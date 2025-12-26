@@ -14,8 +14,14 @@ dotenv.config();
 const app = express();
 
 //MongoDB connect
-const uri = process.env.MONGO_URI;
-mongoose.connect(uri);
+const uri = process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
+await mongoose.connect(uri);
+
+console.log("Conectando a DB:",
+    process.env.NODE_ENV === "test" ? "TEST" : "PROD"
+);
+
+console.log("DB usada:", mongoose.connection.name);
 
 //Cors
 app.use(cors({
@@ -32,8 +38,11 @@ app.use(express.static('public'));
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 
-const PORT = 8080;
+
+export default app;
+/* const PORT = 8080;
 
 app.listen(PORT, () => {
     console.log(`Servidor iniciado en http://localhost:${PORT}`);
 });
+ */

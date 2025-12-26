@@ -14,16 +14,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ status: 'error', message: error.message });
     }
 });
-/* 
-// GET Categories
-router.get('/categories', async (req, res) => {
-    try {
-        const result = await productController.getAllCategories();
-        res.status(200).json({ status: 'success', payload: result });
-    } catch (error) {
-        res.status(500).json({ status: 'error', message: error.message });
-    }
-}); */
 
 // GET categories/ID
 router.get('/categories', async (req, res) => {
@@ -60,12 +50,8 @@ router.get('/:pid', async (req, res) => {
 // POST create
 router.post('/', uploader.single("mainImage"), async (req, res) => {
 
-    // Validar archivo
-    if (!req.file) {
-        return res.status(400).json({ status: 'error', message: 'Falta la imagen' });
-    }
+    const mainImage = req.file ? req.file.filename : [];
 
-    const mainImage = req.file.filename;
 
     try {
         const result = await productController.createProduct({

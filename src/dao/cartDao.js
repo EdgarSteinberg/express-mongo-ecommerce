@@ -10,7 +10,7 @@ class CartDao {
 
     // Obtener carrito por ID
     async getCartByIdDao(cid) {
-        const cart = await cartModel.findById(cid);
+        const cart = await cartModel.findById(cid).populate("products.product");
 
         if (!cart) {
             throw new Error(`El carrito con ID: ${cid} no se encuentra`);

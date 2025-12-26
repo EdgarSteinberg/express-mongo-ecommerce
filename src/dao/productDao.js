@@ -3,7 +3,7 @@ import { productModel } from "../models/productsModels.js";
 class ProductDao {
 
     async getAllProductDao() {
-        return await productModel.find();
+        return await productModel.find().lean();
     }
 
     async getProductByIdDao(pid) {

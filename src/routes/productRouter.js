@@ -52,7 +52,6 @@ router.post('/', uploader.single("mainImage"), async (req, res) => {
 
     const mainImage = req.file ? req.file.filename : [];
 
-
     try {
         const result = await productController.createProduct({
             ...req.body,

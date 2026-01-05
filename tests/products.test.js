@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const requester = supertest(app);
 
 
-
+//cierro la conexión porque si no Jest se queda colgado
 afterAll(async () => {
   await mongoose.connection.close();
 });
@@ -33,8 +33,6 @@ test("GET /api/products", async () => {
     expect(response.body.status).toBe("success");
     expect(Array.isArray(response.body.payload)).toBe(true);
 });
-
-
 
 
 test("POST /api/products", async () => {

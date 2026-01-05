@@ -7,7 +7,7 @@ import cors from "cors";
 //Router
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
-
+import userRouter from './routes/userRouter.js';
 
 //Dotenv Express
 dotenv.config();
@@ -37,7 +37,7 @@ app.use(express.static('public'));
 //Routers
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-
+app.use('/api/users', userRouter);
 
 export default app;
 /* const PORT = 8080;

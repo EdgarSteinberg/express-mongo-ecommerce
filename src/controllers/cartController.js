@@ -1,153 +1,106 @@
-import mongoose from "mongoose";
-import CartDao from "../dao/cartDao.js";
-import ProductDao from "../dao/productDao.js";
 
-const productDao = new ProductDao();
-const cartDao = new CartDao();
+import CartService from "../service/cartService.js";
+
+const cartService = new CartService();
 
 class CartController {
 
     //Buscar todos los carritos
-    async getAllCarts() {
+    getAllCarts = async (req, res) => {
         try {
-            return await cartDao.getAllCartsDao();
+            const result = await cartService.getAllCarts();
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error("Error al buscar los carritos");
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
     //Buscar el carrito por su CID
-    async getCartById(cid) {
-        if (!cid || !mongoose.isValidObjectId(cid)) {
-            throw new Error("El CID del carrito no es válido");
-        }
-
+    getCartById = async (req, res) => {
+        const { cid } = req.params;
         try {
-            const cart = await cartDao.getCartByIdDao(cid);
-
-            if (!cart) {
-                throw new Error(`No se encontró el carrito con CID: ${cid}`);
-            }
-
-            return cart;
-
+            const result = await cartService.getCartById(cid);
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(error.message);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
     //Crear un carrito
-    async createCart() {
+    createCart = async (req, res) => {
         try {
-            return await cartDao.createCartDao();
+            const result = await cartService.createCart();
+            res.status(201).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error("Error al crear el carrito");
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
-
     // Agregar un producto al carrito
-    async addProductInCart(cid, pid, quantity = 1) {
-        // Validación de cid
-        if (!cid || !mongoose.isValidObjectId(cid)) {
-            throw new Error('Carrito con CID no válido');
-        }
-
-        // Validación de pid
-        if (!pid || !mongoose.isValidObjectId(pid)) {
-            throw new Error('Producto con PID no válido');
-        }
-
-        // Validación de quantity
-        if (!quantity || typeof quantity !== "number" || quantity <= 0) {
-            throw new Error('Cantidad inválida');
-        }
-
-        await this.getCartById(cid);
-        await productDao.getProductByIdDao(pid);
+    addProductInCart = async (req, res) => {
+        const { cid, pid } = req.params;
+        const quantity = req.body?.quantity ?? 1;
 
         try {
-            const result = await cartDao.addProductInCartDao(cid, pid, quantity);
-            return result;
-
+            const result = await cartService.addProductInCart(cid, pid, quantity);
+            res.status(201).send({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(`Error al agregar un producto al carrito con CID: ${cid} : ${error.message}`);
+            res.status(500).send({ status: 'error', message: error.message });
         }
     }
 
     // Remover producto del carrito
-    async removeProductInCart(cid, pid) {
-        if (!cid || !mongoose.isValidObjectId(cid)) {
-            throw new Error(`El cid no es un valor válido!`);
-        }
-
-        if (!pid || !mongoose.isValidObjectId(pid)) {
-            throw new Error(`El pid no es un valor válido!`);
-        }
-
-        // Valido existencia del carrito y del producto
-        await this.getCartById(cid);
-        await productDao.getProductByIdDao(pid);
+    removeProductInCart = async (req, res) => {
+        const { cid, pid } = req.params;
 
         try {
-            const result = await cartDao.removeProductCartDao(cid, pid);
-            return result;
-
+            const result = await cartService.removeProductInCart(cid, pid);
+            res.status(200).send({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(`Error al remover el producto ${pid} del carrito ${cid}: ${error.message}`);
+            res.status(500).send({ status: 'error', message: error.message });
         }
     }
 
     //Actualizar la cantidad del producto 
-    async updatedProductQuantity(cid, pid, quantity) {
-        if (!cid || !mongoose.isValidObjectId(cid)) {
-            throw new Error(`Cid no proporcionado o no valido!`);
-        }
+    updatedProductQuantity = async (req, res) => {
+        const { cid, pid } = req.params;
+        const quantity = req.body?.quantity; // <-- NO rompe aunque req.body sea undefined
 
-        if (!pid || !mongoose.isValidObjectId(pid)) {
-            throw new Error(`Pid no proporcionado o no valido!`);
-        }
-
-        // Validación correcta de quantity
-        if (quantity == null || isNaN(quantity) || quantity <= 0) {
-            throw new Error('Cantidad inválida');
-        }
-
-        await this.getCartById(cid);
-        await productDao.getProductByIdDao(pid);
-
-        try {
-            const result = await cartDao.updateProductQuantity(cid, pid, quantity);
-            return result;
-        } catch (error) {
-            throw new Error(`Error al actualizar la cantidad del carrito ${cid}`);
-        }
-    }
-
-
-
-    async updateCart(cid, updated) {
-        await this.getCartById(cid);
-
-        if (!updated || Object.keys(updated).length === 0) {
-            throw new Error("No hay campos para actualizar");
+        // Validación súper simple
+        if (!quantity) {
+            return res.status(400).send({ status: "error", message: "Debes enviar 'quantity' en el body" });
         }
 
         try {
-            return await cartDao.updateCartDao(cid, updated);
+            const result = await cartService.updatedProductQuantity(cid, pid, quantity);
+            res.status(200).send({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(`Error al actualizar el carrito con CID: ${cid}`);
+            res.status(500).send({ status: 'error', message: error.message });
         }
-    }
+    };
+
+
+    updateCart = async (req, res) => {
+        const { cid } = req.params;
+        const updated = req.body;
+
+        try {
+            const result = await cartService.updateCart(cid, updated);
+            res.status(200).json({ status: 'success', payload: result });
+        } catch (error) {
+            res.status(500).json({ status: 'error', message: error.message });
+        }
+    };
 
     //Eliminar el carrito
-    async deleteCart(cid) {
-        await this.getCartById(cid);
+    deleteCart = async (req, res) => {
+        const { cid } = req.params;
 
         try {
-            return await cartDao.deleteCartDao(cid);
+            const result = await cartService.deleteCart(cid);
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(`Error al eliminar el carrito con CID: ${cid}`);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 }

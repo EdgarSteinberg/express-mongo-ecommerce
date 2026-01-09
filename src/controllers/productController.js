@@ -1,112 +1,81 @@
-import mongoose from "mongoose";
-import ProductDao from "../dao/productDao.js";
+import ProductService from "../service/productService.js";
 
-const productDao = new ProductDao();
+const productService = new ProductService();
 
 class ProductController {
 
-    async getAllProducts() {
+    getAllProducts = async (req, res) => {
         try {
-            return await productDao.getAllProductDao();
+            const result = await productService.getAllProducts();
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error("Error al buscar los productos");
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
-    async getProductById(pid) {
-        if (!pid || !mongoose.Types.ObjectId.isValid(pid)) {
-            throw new Error("El PID del producto no es válido");
-        }
+    getAllCategories = async (req, res) => {
+        const { category } = req.query;
 
         try {
-            const product = await productDao.getProductByIdDao(pid);
-
-            if (!product) {
-                throw new Error(`No se encontró el producto con ID: ${pid}`);
-            }
-            return product;
-        } catch (error) {
-            throw new Error(`Error al buscar el producto con PID: ${pid}`);
-        }
-    }
-    async getAllCategories() {
-        try {
-            return await productDao.getAllCategoriesDao()
-        } catch (error) {
-            throw new Error(`Error al obtener las categorias`)
-        }
-    }
-
-    async getProductCategory(category) {
-        if (!category) {
-            throw new Error(`Falta la categoria del producto`);
-        }
-
-        const normalizedCategory = category.toLowerCase().trim();
-
-        try {
-            const result = await productDao.getProductCategoryDao(normalizedCategory);
-
-            if (result.length === 0) {
-                throw new Error(`No existen productos en la categoría ${normalizedCategory}`);
+            // 👉 Si viene category, devolvemos productos
+            if (category) {
+                const result = await productService.getProductCategory(category);
+                return res.status(200).json({ status: 'success', payload: result });
             }
 
-            return result;
+            // 👉 Si no viene category, devolvemos las categorías
+            const result = await productService.getAllCategories();
+            res.status(200).json({ status: 'success', payload: result });
+
         } catch (error) {
-            throw new Error(`Error al obtener la categoria ${normalizedCategory}`);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
-
-
-    async createProduct(product) {
-        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage } = product;
-
-        if (!title || !shortDescription || !longDescription || !price || !stock || !brand || !category) {
-            throw new Error("Todos los campos obligatorios deben completarse.");
+    getProductById = async (req, res) => {
+        const { pid } = req.params;
+        try {
+            const result = await productService.getProductById(pid);
+            res.status(200).json({ status: 'success', payload: result });
+        } catch (error) {
+            res.status(500).json({ status: 'error', message: error.message });
         }
+    }
+
+    createProduct = async (req, res) => {
+        const mainImage = req.file ? req.file.filename : [];
 
         try {
-            return await productDao.createProductDao({
-                title,
-                shortDescription,
-                longDescription,
-                price,
-                stock,
-                brand,
-                category,
-                discount,
-                tags,
+            const result = await productService.createProduct({
+                ...req.body,
                 mainImage
             });
+
+            res.status(201).json({ status: 'success', payload: result });
+
         } catch (error) {
-            console.log(error.message);
-            throw new Error("Error al crear el producto");
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
-    async updatedProduct(pid, updated) {
-        await this.getProductById(pid);
-
-        if (!updated || Object.keys(updated).length === 0) {
-            throw new Error("No hay campos para actualizar");
-        }
-
+    updatedProduct = async (req, res) => {
+        const { pid } = req.params;
+        const updated = req.body;
         try {
-            return await productDao.updatedProductDao(pid, updated);
+            const result = await productService.updatedProduct(pid, updated);
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            console.log(error.message);
-            throw new Error(`Error al actualizar el producto con PID: ${pid}`);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 
-    async deleteProduct(pid) {
-        await this.getProductById(pid);
-
+    deleteProduct = async (req, res) => {
+        const { pid } = req.params;
         try {
-            return await productDao.deleteProductDao(pid);
+            const result = await productService.deleteProduct(pid);
+            res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
-            throw new Error(`Error al eliminar el producto con PID: ${pid}`);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
 }

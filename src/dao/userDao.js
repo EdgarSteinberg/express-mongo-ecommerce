@@ -17,7 +17,7 @@ class UserDao {
     }
 
     async getUserByEmailDao(email) {
-        const result = await userModel.findOne({ email });
+        const result = await userModel.findOne({ email }).lean();
         if (!result) {
             throw new Error(`Email no encontrado`)
         }
@@ -29,7 +29,6 @@ class UserDao {
         return await userModel.create(user);
 
     }
- 
 
     async deleteUser(uid) {
         const result = await userModel.findByIdAndDelete(uid);

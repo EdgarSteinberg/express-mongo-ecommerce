@@ -1,10 +1,11 @@
+import jwt from "jsonwebtoken";
 import { comparePassword, createHash } from "../utils/cryptoUtil.js";
 
 import UserDao from "../dao/userDao.js";
 const userDao = new UserDao();
 
-import CartController from "../controllers/cartController.js";
-const cartController = new CartController();
+import CartService from "../service/cartService.js";
+const cartService = new CartService();
 
 class UserService {
     async getAllUsers() {
@@ -34,8 +35,7 @@ class UserService {
         }
 
         try {
-            const cartId = await cartController.createCart();
-
+            const cartId = await cartService.createCart();
 
             const result = await userDao.registerDao({
                 first_name,
@@ -65,7 +65,8 @@ class UserService {
             }
 
             if (comparePassword(user, password)) {
-                return user;
+                delete user.password;
+                return jwt.sign(user, "coderSecret", {expiresIn: "2h"});
             }
             throw new Error(`Credenciales invalidas`);
         } catch (error) {
@@ -80,7 +81,7 @@ class UserService {
 
             // 2️⃣ Eliminás el carrito si existe
             if (user.cart) {
-                await cartController.deleteCart(user.cart);
+                await cartService.deleteCart(user.cart);
             }
 
             // 3️⃣ Eliminás el usuario

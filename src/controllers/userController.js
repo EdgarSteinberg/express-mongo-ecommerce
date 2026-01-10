@@ -1,4 +1,4 @@
-// controllers/userController.js
+
 import UserService from "../service/userService.js";
 const userService = new UserService();
 
@@ -39,8 +39,15 @@ class UserController {
         const { email, password } = req.body;
 
         try {
-            const result = await userService.login(email, password);
-            res.status(200).json({ status: 'success', message: 'Login exitoso', payload: result });
+            const token = await userService.login(email, password);
+
+            res.cookie("auth", token, { maxAge: 60 * 60 * 1000 }).json(
+                {
+                    status: 'success'
+                    , message: 'Login exitoso',
+                    token
+                });
+                
         } catch (error) {
             res.status(401).json({ status: 'error', message: error.message });
         }
@@ -55,6 +62,12 @@ class UserController {
             res.status(404).json({ status: 'error', message: error.message });
         }
     };
+
+    current = async (req, res) => {
+        res.send({
+            user: req.user
+        })
+    }
 }
 
 export default UserController;

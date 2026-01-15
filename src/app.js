@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import userRouter from './routes/userRouter.js';
+import orderRouter from './routes/orderRouter.js';
 
 //Passport
 import initializePassport from './config/passportConfig.js';
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 export default app;
 /* const PORT = 8080;

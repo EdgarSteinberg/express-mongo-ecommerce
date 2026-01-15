@@ -46,8 +46,19 @@ class ProductController {
         const mainImage = req.file ? req.file.filename : [];
 
         try {
+            let tags = [];
+
+            if (req.body.tags) {
+                try {
+                    tags = JSON.parse(req.body.tags);
+                } catch {
+                    tags = [];
+                }
+            }
+
             const result = await productService.createProduct({
                 ...req.body,
+                tags,
                 mainImage
             });
 
@@ -61,6 +72,8 @@ class ProductController {
     updatedProduct = async (req, res) => {
         const { pid } = req.params;
         const updated = req.body;
+
+
         try {
             const result = await productService.updatedProduct(pid, updated);
             res.status(200).json({ status: 'success', payload: result });

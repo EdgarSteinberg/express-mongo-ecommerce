@@ -18,7 +18,7 @@ router.get('/:pid', productController.getProductById);
 router.post('/', uploader.single("mainImage"), productController.createProduct);
 
 // PUT update
-router.put('/:pid', productController.updatedProduct);
+router.put('/:pid',uploader.single("mainImage"), productController.updatedProduct);
 
 // DELETE
 router.delete('/:pid', productController.deleteProduct);

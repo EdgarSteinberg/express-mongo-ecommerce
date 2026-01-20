@@ -17,17 +17,21 @@ class UserDao {
     }
 
     async getUserByEmailDao(email) {
-        const result = await userModel.findOne({ email }).lean();
-        if (!result) {
-            throw new Error(`Email no encontrado`)
-        }
-
-        return result;
+        return await userModel.findOne({ email }).lean();
     }
 
     async registerDao(user) {
         return await userModel.create(user);
 
+    }
+
+    async updatedDao(uid, updated) {
+        const result = await userModel.findByIdAndUpdate(
+            uid,
+            updated,
+            { new: true }
+        )
+        return result;
     }
 
     async deleteUser(uid) {

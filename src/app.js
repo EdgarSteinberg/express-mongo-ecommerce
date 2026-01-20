@@ -1,7 +1,8 @@
 //Config
+import 'dotenv/config';
+
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from "dotenv";
 import cors from "cors";
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
@@ -15,8 +16,7 @@ import orderRouter from './routes/orderRouter.js';
 //Passport
 import initializePassport from './config/passportConfig.js';
 
-//Dotenv Express
-dotenv.config();
+
 const app = express();
 
 //MongoDB connect

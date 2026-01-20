@@ -64,8 +64,8 @@ const initializePassport = () => {
                 // Indica de dónde se extrae el JWT (cookies)
                 jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
 
-                // Clave secreta para validar la firma del token
-                secretOrKey: "coderSecret"
+                // Clave secreta para validar la firma del token JWT_SECRET .ENV
+                secretOrKey: process.env.JWT_SECRET 
             },
             /**
              * Callback que se ejecuta si el token es válido.

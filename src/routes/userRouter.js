@@ -5,7 +5,10 @@ import UserController from "../controllers/userController.js";
 const router = Router();
 const userController = new UserController();
 
-router.get('/current', passport.authenticate("jwt", {session: false}), userController.current);
+router.post('/send-reset-email', userController.sendEmail);
+router.get('/reset-password', userController.send_password_reset);
+router.post('/new-password', userController.reset_password);
+router.get('/current', passport.authenticate("jwt", { session: false }), userController.current);
 router.get('/', userController.getAll);
 router.get('/:uid', userController.getById);
 router.post('/register', userController.register);

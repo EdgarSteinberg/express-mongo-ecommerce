@@ -59,7 +59,15 @@ class UserController {
             res.status(200).send({ status: 'success', message: 'Password actualizada', payload: result });
         } catch (error) {
             console.error('Error al actualizar la contraseña:', error.message);
-            res.status(500).send({ status: 'error', message: error.message });
+
+            if (
+                error.message.includes('expirado') ||
+                error.message.includes('misma')
+            ) {
+                return res.status(400).send({ status: 'error', message: error.message });
+            }
+
+            return res.status(500).send({ status: 'error', message: 'Error interno del servidor' });
         }
     }
 

@@ -12,7 +12,8 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true },
     discount: { type: Number, default: 0 },
     tags: { type: [String], default: [] },
-    mainImage: { type: [String], default: [] }
+    mainImage: { type: [String], default: [] },
+    owner: { type: String, default: 'admin' }
 });
 
 export const productModel = mongoose.model(productCollection, productSchema);

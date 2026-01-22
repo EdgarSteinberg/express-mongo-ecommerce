@@ -109,7 +109,8 @@ class UserService {
         console.log("Token reset:", token);
 
         //Link de reset
-        const resetLink = `http://localhost:8080/api/users/reset-password?token=${token}`;
+        /* const resetLink = `http://localhost:8080/api/users/reset-password?token=${token}`; */
+        const resetLink = `http://localhost:5173/reset-password?token=${token}`;
 
         // 4️⃣ Enviar email con Resend
         await resend.emails.send({
@@ -172,7 +173,7 @@ class UserService {
                 throw new Error('Usuario no encontrado');
             }
 
-            const isSamePassword = await isValidPassword(newPassword, user.password);
+            const isSamePassword = await comparePassword(user, newPassword,);
             if (isSamePassword) {
                 throw new Error('La nueva contraseña no puede ser la misma que la anterior');
             }

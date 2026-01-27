@@ -142,6 +142,15 @@ class UserController {
             user: req.user
         })
     }
+
+
+    logout = async (req, res) => {
+        res.clearCookie('auth');
+        res.status(200).json({ status: 'success',
+            message: 'Sesión cerrada correctamente'
+        });
+    };
+
 }
 
 export default UserController;

@@ -58,7 +58,7 @@ class ProductService {
     }
 
     async createProduct(product) {
-        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage } = product;
+        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage ,owner} = product;
 
         if (!title || !shortDescription || !longDescription || !price || !stock || !brand || !category) {
             throw new Error("Todos los campos obligatorios deben completarse.");
@@ -75,7 +75,8 @@ class ProductService {
                 category,
                 discount,
                 tags,
-                mainImage
+                mainImage,
+                owner
             });
         } catch (error) {
             console.log(error.message);

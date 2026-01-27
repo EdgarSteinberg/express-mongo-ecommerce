@@ -43,8 +43,10 @@ class ProductController {
     }
 
     createProduct = async (req, res) => {
-        const mainImage = req.file ? req.file.filename : [];
 
+        /*  const mainImage = req.file ? req.file.filename : []; */
+        const mainImage = req.file ? req.file.filename : null;
+        
         try {
             let tags = [];
 
@@ -55,10 +57,11 @@ class ProductController {
                     tags = [];
                 }
             }
-
+            const owner = req.user && req.user.role === 'premium' ? req.user.email : 'admin';
             const result = await productService.createProduct({
                 ...req.body,
                 tags,
+                owner,
                 mainImage
             });
 

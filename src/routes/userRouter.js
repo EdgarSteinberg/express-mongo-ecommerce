@@ -27,6 +27,6 @@ router.post('/login', userController.login);
 
 router.delete('/:uid', verifyToken, handlePolicies(['admin']), userController.deleteUser);
 
-
+router.post('/logout', userController.logout);
 
 export default router;

@@ -37,10 +37,10 @@ app.use(cors({
     credentials: true
 }));
 
-
+// Para que nuestro servidor express pueda interpretar en forma automatica mensajes de tipo JSON
 // Middlewares Express y CookieParser
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // Formatear datos que vienen del cuerpo de la solicitud req.body
+app.use(express.urlencoded({ extended: true })); //Para parametros GET
 app.use(express.static('public'));
 app.use(cookieParser());
 

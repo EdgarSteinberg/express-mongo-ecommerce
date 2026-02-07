@@ -98,6 +98,16 @@ class CartDao {
             { new: true }
         );
     }
+
+
+    //Vaciaar carrito
+    async clearCart(cid) {
+        return await cartModel.findOneAndUpdate(
+            { _id: cid },
+            { $set: { products: [] } },
+            { new: true }
+        );
+    }
 }
 
 export default CartDao;

@@ -53,7 +53,9 @@ class OrderService {
                 }))
             });
 
+            await cartService.clearCart(cart._id);
             return result;
+
         } catch (error) {
             throw new Error(`Error al generar la orden: ${error.message}`);
         }

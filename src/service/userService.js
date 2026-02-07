@@ -83,9 +83,9 @@ class UserService {
             // 1️⃣ Buscás el usuario
             const user = await userDao.getUserByIdDao(uid);
 
-            // 2️⃣ Eliminás el carrito si existe
+            // 2️⃣ Eliminás el carrito si existe // Dato si le paso user.cart es objet ya que le paso el carrito entero no el _id
             if (user.cart) {
-                await cartService.deleteCart(user.cart);
+                await cartService.deleteCart(user.cart._id);
             }
 
             // 3️⃣ Eliminás el usuario
@@ -173,11 +173,11 @@ class UserService {
                 throw new Error('Usuario no encontrado');
             }
 
-            const isSamePassword = await comparePassword(user, newPassword,);
-            if (isSamePassword) {
-                throw new Error('La nueva contraseña no puede ser la misma que la anterior');
-            }
-
+            /*  const isSamePassword = await comparePassword(user, newPassword);
+             if (isSamePassword) {
+                 throw new Error('La nueva contraseña no puede ser la misma que la anterior');
+             }
+  */
             const hashedPassword = await createHash(newPassword);
             await userDao.updatedDao(user._id, { password: hashedPassword });
 

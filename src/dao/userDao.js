@@ -8,13 +8,24 @@ class UserDao {
     }
 
     async getUserByIdDao(uid) {
-        const result = await userModel.findById(uid).lean();
+        const result = await userModel
+            .findById(uid)
+            .lean()
+            .populate({
+                path: "cart",        // poblamos el carrito del usuario
+                populate: {
+                    path: "products", // poblamos los productos dentro del carrito
+                    model: "products" // asegúrate de que el nombre coincide con tu modelo
+                }
+            });
+
         if (!result) {
             throw new Error(`El usuario con ID: ${uid} no existe`);
         }
 
         return result;
     }
+
 
     async getUserByEmailDao(email) {
         return await userModel.findOne({ email }).lean();
@@ -33,6 +44,7 @@ class UserDao {
         )
         return result;
     }
+
 
     async deleteUser(uid) {
         const result = await userModel.findByIdAndDelete(uid);

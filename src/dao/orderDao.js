@@ -6,6 +6,14 @@ class OrderDao {
         return await orderModel.find();
     }
 
+    async getOrdersByUserDao(uid) {
+        return await orderModel
+            .find({ purchaser: uid })
+            .populate('purchaser')
+            .populate('cart.product')
+            .sort({ purchaseDateTime: -1 });
+    }
+
     async getByIdDao(oid) {
         return await orderModel.findById(oid)
             .populate('purchaser')

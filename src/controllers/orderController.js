@@ -24,6 +24,19 @@ class OrderController {
         }
     };
 
+
+    getOrdersByUser = async (req, res) => {
+        const uid = req.user._id;
+
+        try {
+            const result = await orderService.getOrdersByUserDao(uid);
+            res.status(200).json({ status: 'success', payload: result });
+
+        } catch (error) {
+            res.status(500).json({ status: 'error', message: error.message });
+        }
+    }
+
     createOrder = async (req, res) => {
         try {
             const result = await orderService.createOrder(req.body);

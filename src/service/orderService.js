@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 import OrderDao from "../dao/orderDao.js";
 const orderService = new OrderDao();
 
@@ -28,6 +30,25 @@ class OrderService {
         } catch (error) {
             throw new Error(`Error al obtener los producto con ID: ${oid}, ${error.message}`);
 
+        }
+    }
+
+    async getOrdersByUserDao(uid) {
+
+        if (!uid || !mongoose.Types.ObjectId.isValid(uid)) {
+            throw new Error("ID de usuario inválido");
+        }
+
+        const user = await userService.getUserByIdDao(uid);
+
+        if (!user) {
+            throw new Error("Usuario no encontrado");
+        }
+
+        try {
+            return await orderService.getOrdersByUserDao(user._id);
+        } catch (error) {
+            throw new Error("Error al obtener todas las ordenes");
         }
     }
 

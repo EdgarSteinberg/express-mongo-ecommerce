@@ -9,12 +9,16 @@ const userDao = new UserDao();
 import CartService from "../service/cartService.js";
 const cartService = new CartService();
 
+import UserDTO from "../dto/userDto.js";
+
 const resend = new Resend(process.env.RESEND_API_KEY); //RESEND
+
 
 class UserService {
     async getAllUsers() {
         try {
-            return await userDao.getAllUsersDao();
+            const users = await userDao.getAllUsersDao();
+            return users.map(user => new UserDTO(user));
         } catch (error) {
             throw new Error(`Error al consultar los usuarios`);
         }
@@ -22,14 +26,16 @@ class UserService {
 
     async getUserById(uid) {
         try {
-            const result = await userDao.getUserByIdDao(uid);
+            const user = await userDao.getUserByIdDao(uid);
 
-            return result;
+            if (!user) { throw new Error("Usuario no encontrado"); }
+
+            return new UserDTO(user);
+
         } catch (error) {
             throw new Error(`Error al consultar usuario con ID:${uid} ${error.message}`);
         }
     }
-
 
     async register(user) {
         const { first_name, last_name, age, email, password, role } = user;
@@ -114,7 +120,7 @@ class UserService {
 
         // 4️⃣ Enviar email con Resend
         await resend.emails.send({
-            from: "Edgar <onboarding@resend.dev>",
+            from: "ApiE-commerce <onboarding@resend.dev>",
             to: email,
             subject: "Recuperación de contraseña",
             html: `
@@ -141,27 +147,6 @@ class UserService {
         return token;
     }
 
-
-    /*  async resetPassword(token, newPassword) {
-         try {
-             const data = jwt.verify(token, process.env.JWT_SECRET);
-             const { email } = data;
-             const user = await userDao.getUserByEmailDao(email);
- 
-             if (!email) {
-                 throw new Error('La nueva contraseña no puede ser la misma que la anterior');
-             }
- 
-             const hashedPassword = await createHash(newPassword);
-             await userDao.updatedDao(user._id, { password: hashedPassword });
-         } catch (error) {
-             if (error instanceof jwt.TokenExpiredError) {
-                 throw new Error('El enlace ha expirado. Por favor, solicita un nuevo enlace de restablecimiento de contraseña.');
-             } else {
-                 throw error;
-             }
-         }
-     } */
 
     async resetPassword(token, newPassword) {
         try {

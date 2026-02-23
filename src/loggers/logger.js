@@ -1,6 +1,14 @@
 import winston from "winston";
-import __dirname from "../utils/dirname";
+import __dirname from "../utils/dirname.js";
 
+
+/* Winston con configuración de niveles y loggers dinámicos 
+Reglas profesionales
+logger.info() → acciones exitosas, información relevante.
+logger.warn() → advertencias, inputs inválidos, situaciones que no rompen la app.
+logger.error() → errores que afectan la ejecución o generan fallos.
+logger.http() → opcional para loguear cada request HTTP si hacés middleware.
+*/
 const customLevels = {
     levels: {
         error: 0,
@@ -29,7 +37,7 @@ const logger = winston.createLogger({
             ),
         }),
         new winston.transports.File({
-            filename: `${__dirname}/loggers/errors.log`, // ruta absoluta
+            filename: `${__dirname}/../loggers/errors.log`, // ruta absoluta
             level: 'warn',
             format: winston.format.combine(
                 winston.format.timestamp(),

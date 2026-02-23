@@ -107,12 +107,7 @@ class UserController {
         try {
             const token = await userService.login(email, password);
 
-            /*  res.cookie("auth", token, { maxAge: 60 * 60 * 1000 }).json(
-                 {
-                     status: 'success'
-                     , message: 'Login exitoso',
-                     token
-                 }); */
+
             res.cookie('auth', token, {
                 maxAge: 60 * 60 * 1000,
                 httpOnly: true,

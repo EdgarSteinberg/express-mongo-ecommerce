@@ -28,6 +28,7 @@
     "multer": "^2.0.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "resend": "^6.8.0"
+    "resend": "^6.8.0",
+    "winston": "^3.19.0"
   }
 }

@@ -1,4 +1,5 @@
 import ProductService from "../service/productService.js";
+import logger from "../loggers/logger.js";
 
 const productService = new ProductService();
 
@@ -46,7 +47,7 @@ class ProductController {
 
         /*  const mainImage = req.file ? req.file.filename : []; */
         const mainImage = req.file ? req.file.filename : null;
-        
+
         try {
             let tags = [];
 
@@ -64,10 +65,11 @@ class ProductController {
                 owner,
                 mainImage
             });
-
+            logger.info(`Producto creado correctamente por ${owner}`)
             res.status(201).json({ status: 'success', payload: result });
 
         } catch (error) {
+            logger.error(`Error al crear el producto ${error.message}`);
             res.status(500).json({ status: 'error', message: error.message });
         }
     }
@@ -79,8 +81,10 @@ class ProductController {
 
         try {
             const result = await productService.updatedProduct(pid, updated);
+            logger.info(`Producto con PID: ${pid} actualizado correctamente`)
             res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al actualizar ${error.message}`)
             res.status(500).json({ status: 'error', message: error.message });
         }
     }
@@ -89,8 +93,10 @@ class ProductController {
         const { pid } = req.params;
         try {
             const result = await productService.deleteProduct(pid);
+            logger.info(`Producto Eliminado`)
             res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al eliminar el producto ${error.message}`);
             res.status(500).json({ status: 'error', message: error.message });
         }
     }

@@ -1,1 +1,2 @@
 {"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario, E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-23T21:27:35.249Z"}
+{"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario, E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-24T01:24:44.402Z"}

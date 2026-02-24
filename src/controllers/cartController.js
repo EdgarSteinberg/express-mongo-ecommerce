@@ -1,7 +1,7 @@
-
 import CartService from "../service/cartService.js";
-
 const cartService = new CartService();
+
+import logger from "../loggers/logger.js";
 
 class CartController {
 
@@ -30,8 +30,10 @@ class CartController {
     createCart = async (req, res) => {
         try {
             const result = await cartService.createCart();
+            logger.info(`Carrito creado - ID: ${result._id}`);
             res.status(201).json({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al crear al carrito ${error.message}`);
             res.status(500).json({ status: 'error', message: error.message });
         }
     }
@@ -43,8 +45,10 @@ class CartController {
 
         try {
             const result = await cartService.addProductInCart(cid, pid, quantity);
+            logger.info(`Producto ${pid} agregado al carrito ${cid} - Cantidad: ${quantity}`);
             res.status(201).send({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al agregar producto ${pid} al carrito ${cid} - ${error.message}`);
             res.status(500).send({ status: 'error', message: error.message });
         }
     }
@@ -55,8 +59,10 @@ class CartController {
 
         try {
             const result = await cartService.removeProductInCart(cid, pid);
+            logger.info(`Producto ${pid} removido del carrito ${cid}`)
             res.status(200).send({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al remover producto ${pid} del carrito ${cid} - ${error.message}`);
             res.status(500).send({ status: 'error', message: error.message });
         }
     }
@@ -73,8 +79,10 @@ class CartController {
 
         try {
             const result = await cartService.updatedProductQuantity(cid, pid, quantity);
+            logger.info(`Cantidad actualizada - Carrito: ${cid}, Producto: ${pid}, Nueva cantidad: ${quantity}`);
             res.status(200).send({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al actualizar - Carrito: ${cid}, Producto: ${pid}, Nueva cantidad: ${quantity} ${error.message}`);
             res.status(500).send({ status: 'error', message: error.message });
         }
     };
@@ -86,8 +94,10 @@ class CartController {
 
         try {
             const result = await cartService.updateCart(cid, updated);
+            logger.info(`Carrito ${cid} actualizado`);
             res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al modificar el Carrito ID ${cid} - ${error.message}`);
             res.status(500).json({ status: 'error', message: error.message });
         }
     };
@@ -98,8 +108,10 @@ class CartController {
 
         try {
             const result = await cartService.deleteCart(cid);
+            logger.info(`Carrito eliminado - ID: ${cid}`);
             res.status(200).json({ status: 'success', payload: result });
         } catch (error) {
+            logger.error(`Error al eliminar el carrito con ID: ${cid} - ${error.message}`);
             res.status(500).json({ status: 'error', message: error.message });
         }
     }

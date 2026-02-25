@@ -88,18 +88,38 @@ class ProductController {
             res.status(500).json({ status: 'error', message: error.message });
         }
     }
+deleteProduct = async (req, res) => {
+    const { pid } = req.params;
 
-    deleteProduct = async (req, res) => {
-        const { pid } = req.params;
-        try {
-            const result = await productService.deleteProduct(pid);
-            logger.info(`Producto Eliminado`)
-            res.status(200).json({ status: 'success', payload: result });
-        } catch (error) {
-            logger.error(`Error al eliminar el producto ${error.message}`);
-            res.status(500).json({ status: 'error', message: error.message });
+    try {
+        const user = req.user;
+        const product = await productService.getProductById(pid);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
         }
+
+        // Admin puede eliminar cualquiera
+        if (user.role === 'admin') {
+            const result = await productService.deleteProduct(pid);
+            logger.info(`Producto eliminado correctamente. ${result._id}`);
+            return res.status(200).json({ status: 'success', payload: result });
+        }
+
+        // Premium solo si es dueño del producto
+        if (user.role === 'premium' && product.owner === user.email) {
+            const result = await productService.deleteProduct(pid);
+            logger.info(`Producto eliminado correctamente. ${result._id}`); 
+            return res.status(200).json({ status: 'success', payload: result });
+        }
+
+        return res.status(403).json({ message: 'No autorizado' });
+
+    } catch (error) {
+        logger.error(`Error al eliminar el producto ${error.message}`);
+        res.status(500).json({ status: 'error', message: error.message });
     }
+};
 }
 
 export default ProductController;

@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const userCollection = 'users';
 
 const userSchema = new mongoose.Schema({
-  first_name: { type: String, minLength: 2, required: true },
-  last_name: { type: String, minLength: 2, required: true },
+  first_name: { type: String, minLength: 5, required: true },
+  last_name: { type: String, minLength: 5, required: true },
   email: {
     type: String,
     unique: true,

@@ -1,6 +1,6 @@
 
 
-
+import jwt from "jsonwebtoken"; 
 
 export const verifyToken = (req, res, next) => {
   // 1. Token desde headers (Bearer token)

@@ -1,7 +1,9 @@
 import { Router } from "express";
 import ProductController from "../controllers/productController.js";
 import { uploader } from "../utils/multer.js";
-import { handlePolicies, verifyToken } from "../utils/cryptoUtil.js";
+/* import { handlePolicies, verifyToken } from "../utils/cryptoUtil.js"; */
+import { handlePolicies } from "../middlewares/handlePolicies.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = Router();
 const productController = new ProductController();

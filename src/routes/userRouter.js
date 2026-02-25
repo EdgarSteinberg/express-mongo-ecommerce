@@ -1,7 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
 import UserController from "../controllers/userController.js";
-import { handlePolicies, verifyToken } from "../utils/cryptoUtil.js";
+/* import { handlePolicies, verifyToken } from "../utils/cryptoUtil.js"; */
+import { handlePolicies } from "../middlewares/handlePolicies.js";
+import { handlePolicies } from "../middlewares/handlePolicies.js";
 
 const router = Router();
 const userController = new UserController();

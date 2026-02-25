@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
+/* import jwt from "jsonwebtoken"; */
 
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
@@ -17,7 +17,7 @@ export const comparePassword = (user, password) => {
   return bcrypt.compareSync(password, user.password);
 };
 
-
+/* 
 export const verifyToken = (req, res, next) => {
   // 1. Token desde headers (Bearer token)
   const headerToken = req.headers.authorization ? req.headers.authorization.split(" ")[1] : undefined;
@@ -58,3 +58,4 @@ export const handlePolicies = (policies) => {
     return res.status(403).json({ message: "No tienes permisos para acceder a este recurso" });
   };
 };
+ */

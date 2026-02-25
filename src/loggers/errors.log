@@ -1,2 +1,10 @@
 {"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario, E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-23T21:27:35.249Z"}
 {"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario, E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-24T01:24:44.402Z"}
+{"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario","timestamp":"2026-02-24T19:16:19.600Z"}
+{"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario","timestamp":"2026-02-24T19:17:21.873Z"}
+{"level":"error","message":"Error al registrar usuario s.steinberg2019@gmail.com - E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-24T19:18:00.340Z"}
+{"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario, E11000 duplicate key error collection: tienda_online.users index: email_1 dup key: { email: \"s.steinberg2019@gmail.com\" }","timestamp":"2026-02-24T19:18:00.343Z"}
+{"level":"warn","message":"Intento de login fallido - email: s.steinberg2019@gmail.com","timestamp":"2026-02-24T19:18:42.415Z"}
+{"level":"error","message":"Error en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-02-24T19:18:42.416Z"}
+{"level":"warn","message":"Intento de login fallido - email: s.steinberg2019@gmail.com","timestamp":"2026-02-24T19:27:21.494Z"}
+{"level":"error","message":"Error en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-02-24T19:27:21.498Z"}

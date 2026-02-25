@@ -158,11 +158,6 @@ class UserService {
                 throw new Error('Usuario no encontrado');
             }
 
-            /*  const isSamePassword = await comparePassword(user, newPassword);
-             if (isSamePassword) {
-                 throw new Error('La nueva contraseña no puede ser la misma que la anterior');
-             }
-  */
             const hashedPassword = await createHash(newPassword);
             await userDao.updatedDao(user._id, { password: hashedPassword });
 

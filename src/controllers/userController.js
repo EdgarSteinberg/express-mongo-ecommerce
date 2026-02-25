@@ -125,8 +125,14 @@ class UserController {
                 token
             });
         } catch (error) {
-            logger.error(`Error en login para ${email}: ${error.message}`);
-            res.status(401).json({ status: 'error', message: error.message });
+
+            if (error.message === "Credenciales invalidas") {
+                logger.warn(`Intento de login fallido - email: ${email}`);
+                return res.status(401).json({ status: 'error', message: error.message });
+            }
+
+            logger.error(`Error interno en login para ${email}: ${error.message}`);
+            res.status(500).json({ status: 'error', message: 'Error interno del servidor' });
         }
     };
 

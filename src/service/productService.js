@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
+import { Resend } from "resend";
 import ProductDao from "../dao/productDao.js";
+
+const resend = new Resend(process.env.RESEND_API_KEY); //RESEND
 
 const productDao = new ProductDao();
 
@@ -58,7 +61,7 @@ class ProductService {
     }
 
     async createProduct(product) {
-        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage ,owner} = product;
+        const { title, shortDescription, longDescription, price, stock, brand, category, discount, tags, mainImage, owner } = product;
 
         if (!title || !shortDescription || !longDescription || !price || !stock || !brand || !category) {
             throw new Error("Todos los campos obligatorios deben completarse.");
@@ -99,14 +102,48 @@ class ProductService {
         }
     }
 
+    /*     async deleteProduct(pid) {
+            await this.getProductById(pid);
+    
+            try {
+                return await productDao.deleteProductDao(pid);
+    
+            } catch (error) {
+                throw new Error(`Error al eliminar el producto con PID: ${pid}`);
+            }
+        } */
     async deleteProduct(pid) {
-        await this.getProductById(pid);
+        const product = await this.getProductById(pid);
 
-        try {
-            return await productDao.deleteProductDao(pid);
-        } catch (error) {
-            throw new Error(`Error al eliminar el producto con PID: ${pid}`);
-        }
+        await productDao.deleteProductDao(pid);
+
+        // Solo notifico si el dueño es premium (por ejemplo)
+        /* if (user.role === 'premium') {
+            await this.sendEmailDelete(product.owner, product);
+        } */
+        await this.sendEmailDelete(product.owner, product);
+        return product;
+    }
+
+    async sendEmailDelete(email, product) {
+        await resend.emails.send({
+            from: "ApiE-commerce <onboarding@resend.dev>",
+            to: email,
+            subject: "Baja de producto",
+            html: `
+            <h2>Producto eliminado</h2>
+            <p>Hola,</p>
+            <p>Te informamos que el siguiente producto fue eliminado de la plataforma:</p>
+            <ul>
+                <li><strong>Nombre:</strong> ${product.title}</li>
+                <li><strong>ID:</strong> ${product._id}</li>
+                <li><strong>Fecha:</strong> ${new Date().toLocaleString()}</li>
+            </ul>
+            <p>Si no realizaste esta acción, contacta con soporte.</p>
+            <br/>
+            <p>— Equipo E-commerce</p>
+                `
+        });
     }
 }
 

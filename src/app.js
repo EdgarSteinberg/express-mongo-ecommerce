@@ -6,6 +6,9 @@ import mongoose from 'mongoose';
 import cors from "cors";
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUIexpress from 'swagger-ui-express';
+import __dirname from './utils/dirname.js';
 
 //Router
 import productRouter from './routes/productRouter.js';
@@ -16,7 +19,7 @@ import orderRouter from './routes/orderRouter.js';
 //Passport
 import initializePassport from './config/passportConfig.js';
 
-
+//Express
 const app = express();
 
 //MongoDB connect
@@ -56,7 +59,32 @@ app.use('/api/carts', cartRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 
+
+//Swagger
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'E-commerce API',
+      version: '1.0.0',
+      description: 'API para la gestión de productos, usuarios, órdenes y autenticación'
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Servidor local'
+      }
+    ]
+  },
+  apis: [`${__dirname}/../docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/api/docs', swaggerUIexpress.serve, swaggerUIexpress.setup(specs));
+
 export default app;
+
+
 /* const PORT = 8080;
 
 app.listen(PORT, () => {

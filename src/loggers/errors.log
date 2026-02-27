@@ -12,3 +12,7 @@
 {"level":"error","message":"Error al eliminar el producto Cannot read properties of undefined (reading 'role')","timestamp":"2026-02-26T18:41:39.518Z"}
 {"level":"error","message":"Error al eliminar el producto Error al buscar el producto con PID: 69a093c73b6fa3db6a032f58","timestamp":"2026-02-26T18:43:19.244Z"}
 {"level":"error","message":"Error al eliminar el producto Error al buscar el producto con PID: 69a096a2f944c0996400cde0","timestamp":"2026-02-26T18:56:53.369Z"}
+{"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:13:59.370Z"}
+{"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:08.983Z"}
+{"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:39.852Z"}
+{"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:55.987Z"}

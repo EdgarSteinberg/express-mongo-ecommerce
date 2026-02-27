@@ -102,16 +102,7 @@ class ProductService {
         }
     }
 
-    /*     async deleteProduct(pid) {
-            await this.getProductById(pid);
-    
-            try {
-                return await productDao.deleteProductDao(pid);
-    
-            } catch (error) {
-                throw new Error(`Error al eliminar el producto con PID: ${pid}`);
-            }
-        } */
+
     async deleteProduct(pid) {
         const product = await this.getProductById(pid);
 

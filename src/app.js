@@ -63,7 +63,6 @@ app.use('/api/orders', orderRouter);
 //Swagger
 const docsPath = `${__dirname}/../docs/**/*.yaml`
 
-console.log("Swagger está leyendo desde:", docsPath)
 const swaggerOptions = {
     definition: {
         openapi: '3.0.1',

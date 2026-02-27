@@ -16,3 +16,5 @@
 {"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:08.983Z"}
 {"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:39.852Z"}
 {"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-02-26T20:14:55.987Z"}
+{"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario","timestamp":"2026-02-27T16:02:01.273Z"}
+{"level":"error","message":"Error al obtener el usuario 696f9a928e8d354ad364ac: Error al consultar usuario con ID:696f9a928e8d354ad364ac Cast to ObjectId failed for value \"696f9a928e8d354ad364ac\" (type string) at path \"_id\" for model \"users\"","timestamp":"2026-02-27T16:11:00.495Z"}

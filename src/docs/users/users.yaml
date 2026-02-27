@@ -1,0 +1,255 @@
+tags:
+  - name: Users
+    description: Gestión de usuarios
+  - name: Auth
+    description: Autenticación y sesión
+  - name: Password
+    description: Recuperación de contraseña
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "65f2c4a8e123456789abcd01"
+        first_name:
+          type: string
+          example: "Juan"
+        last_name:
+          type: string
+          example: "Pérez"
+        email:
+          type: string
+          example: "juan@email.com"
+        role:
+          type: string
+          example: "admin"
+
+    RegisterInput:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    LoginInput:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    ResetEmailInput:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
+    ResetPasswordInput:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+        password:
+          type: string
+
+paths:
+
+  /api/users/register:
+    post:
+      tags:
+        - Auth
+      summary: Registrar nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterInput'
+      responses:
+        201:
+          description: Usuario registrado correctamente
+        400:
+          description: Error de validación
+
+  /api/users/login:
+    post:
+      tags:
+        - Auth
+      summary: Login de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInput'
+      responses:
+        200:
+          description: Login exitoso
+        401:
+          description: Credenciales inválidas
+        500:
+          description: Error interno del servidor
+
+  /api/users/logout:
+    post:
+      tags:
+        - Auth
+      summary: Cerrar sesión
+      responses:
+        200:
+          description: Sesión cerrada correctamente
+
+  /api/users/current:
+    get:
+      tags:
+        - Auth
+      summary: Obtener usuario autenticado actual
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Usuario autenticado
+
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Obtener todos los usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        403:
+          description: Acceso denegado
+        500:
+          description: Error interno
+
+  /api/users/{uid}:
+    get:
+      tags:
+        - Users
+      summary: Obtener usuario por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuario encontrado
+        404:
+          description: Usuario no encontrado
+
+    delete:
+      tags:
+        - Users
+      summary: Eliminar usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuario eliminado correctamente
+        404:
+          description: Usuario no encontrado
+
+  /api/users/send-reset-email:
+    post:
+      tags:
+        - Password
+      summary: Enviar email de recuperación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetEmailInput'
+      responses:
+        200:
+          description: Email enviado si existe
+        400:
+          description: Email requerido
+        500:
+          description: Error interno
+
+  /api/users/reset-password:
+    get:
+      tags:
+        - Password
+      summary: Validar token de recuperación
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Token válido
+        400:
+          description: Token no proporcionado
+        500:
+          description: Error interno
+
+  /api/users/new-password:
+    post:
+      tags:
+        - Password
+      summary: Restablecer contraseña
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordInput'
+      responses:
+        200:
+          description: Password actualizada correctamente
+        400:
+          description: Token inválido o expirado
+        500:
+          description: Error interno

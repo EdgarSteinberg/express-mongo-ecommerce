@@ -61,22 +61,25 @@ app.use('/api/orders', orderRouter);
 
 
 //Swagger
+const docsPath = `${__dirname}/../docs/**/*.yaml`
+
+console.log("Swagger está leyendo desde:", docsPath)
 const swaggerOptions = {
-  definition: {
-    openapi: '3.0.1',
-    info: {
-      title: 'E-commerce API',
-      version: '1.0.0',
-      description: 'API para la gestión de productos, usuarios, órdenes y autenticación'
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'E-commerce API',
+            version: '1.0.0',
+            description: 'API para la gestión de productos, usuarios, órdenes y autenticación'
+        },
+        servers: [
+            {
+                url: 'http://localhost:8080',
+                description: 'Servidor local'
+            }
+        ]
     },
-    servers: [
-      {
-        url: 'http://localhost:3000',
-        description: 'Servidor local'
-      }
-    ]
-  },
-  apis: [`${__dirname}/../docs/**/*.yaml`]
+    apis: [docsPath]
 }
 
 const specs = swaggerJSDoc(swaggerOptions);

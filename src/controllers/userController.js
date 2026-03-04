@@ -162,7 +162,34 @@ class UserController {
             status: 'success',
             message: 'Sesión cerrada correctamente'
         });
-    }
+    };
+
+    updatedRoleUser = async (req, res) => {
+        try {
+            const { uid } = req.params
+
+            // 1️⃣ Buscar usuario real en DB
+            const user = await userService.getUserById(uid)
+
+            if (!user) {
+                return res.status(404).json({ status: 'error', message: 'Usuario no encontrado' })
+            }
+
+            // 2️⃣ Toggle real
+            const newRole = user.role === 'user' ? 'premium' : 'user'
+
+            // 3️⃣ Actualizar por ID
+            const result = await userService.updateUserRoleById(uid, newRole)
+
+            logger.info(`Admin ${req.user.email} cambió el role de ${user.email} de ${user.role} a ${newRole}`)
+
+            res.status(200).json({ status: 'success', payload: result })
+
+        } catch (error) {
+            logger.error('Error al actualizar el role del usuario')
+            res.status(500).json({ status: 'error', message: error.message })
+        }
+    };
 
 }
 

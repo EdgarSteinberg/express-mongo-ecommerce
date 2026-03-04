@@ -31,4 +31,6 @@ router.delete('/:uid', verifyToken, handlePolicies(['admin', 'premium']), userCo
 
 router.post('/logout', userController.logout);
 
+router.post('/premium/:uid', verifyToken,handlePolicies(['admin']), userController.updatedRoleUser);
+
 export default router;

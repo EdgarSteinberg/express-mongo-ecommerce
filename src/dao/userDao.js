@@ -46,12 +46,21 @@ class UserDao {
     }
 
 
-    async deleteUser(uid) {
+    async deleteUserDao(uid) {
         const result = await userModel.findByIdAndDelete(uid);
         if (!result) {
             throw new Error(`Usuario no encontrado`);
         }
         return result;
+    }
+
+    async updateUserRoleByIdDao(uid, role) {
+        const result = await userModel.findByIdAndUpdate(
+            uid,
+            { role },
+            { new: true, runValidators: true } //Porque por defecto findOneAndUpdate no corre validaciones del schema.
+        )
+        return result
     }
 }
 

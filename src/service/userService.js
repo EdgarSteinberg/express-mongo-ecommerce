@@ -1,6 +1,7 @@
 import { Resend } from "resend";
-
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+
 import { comparePassword, createHash } from "../utils/cryptoUtil.js";
 
 import UserDao from "../dao/userDao.js";
@@ -95,7 +96,7 @@ class UserService {
             }
 
             // 3️⃣ Eliminás el usuario
-            const result = await userDao.deleteUser(uid);
+            const result = await userDao.deleteUserDao(uid);
 
             return result;
         } catch (error) {
@@ -172,6 +173,28 @@ class UserService {
     }
 
 
+    async updateUserRoleById(uid, role) {
+
+        if (!uid || !mongoose.Types.ObjectId.isValid(uid)) {
+            throw new Error('ID inválido');
+        }
+
+        if (!role || (role !== 'user' && role !== 'premium')) {
+            throw new Error('Role inválido')
+        }
+        /*        
+        const validRoles = ['user', 'premium'] // otra opcion
+ 
+        if (!validRoles.includes(role)) {
+            throw new Error('Role inválido')
+        } */
+        try {
+            const result = await userDao.updateUserRoleByIdDao(uid, role)
+            return result
+        } catch (error) {
+            throw new Error('Error al actualizar el role')
+        }
+    }
 }
 
 export default UserService;

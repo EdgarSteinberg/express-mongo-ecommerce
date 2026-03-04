@@ -19,3 +19,6 @@
 {"level":"error","message":"Error al registrar el usuario: Error al registrar el usuario","timestamp":"2026-02-27T16:02:01.273Z"}
 {"level":"error","message":"Error al obtener el usuario 696f9a928e8d354ad364ac: Error al consultar usuario con ID:696f9a928e8d354ad364ac Cast to ObjectId failed for value \"696f9a928e8d354ad364ac\" (type string) at path \"_id\" for model \"users\"","timestamp":"2026-02-27T16:11:00.495Z"}
 {"level":"error","message":"Error interno en login para steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-02-27T21:51:48.169Z"}
+{"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:07:42.552Z"}
+{"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:27:27.605Z"}
+{"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:28:39.119Z"}

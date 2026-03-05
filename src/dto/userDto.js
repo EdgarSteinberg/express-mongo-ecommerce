@@ -1,5 +1,5 @@
 class UserDTO {
-  constructor({ _id, first_name, last_name, age, email, role, cart }) {
+  constructor({ _id, first_name, last_name, age, email, role, cart, last_connection }) {
     this._id = _id;
     this.first_name = first_name;
     this.last_name = last_name;
@@ -7,6 +7,7 @@ class UserDTO {
     this.email = email;
     this.role = role;
     this.cart = cart;
+    this.last_connection = last_connection;
   }
 }
 

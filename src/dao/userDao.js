@@ -62,6 +62,21 @@ class UserDao {
         )
         return result
     }
+
+    async lastConnectionDao(uid) {
+        const result = await userModel.findByIdAndUpdate(
+            uid,
+            { last_connection: new Date() },
+            { new: true }
+        );
+        return result;
+    }
 }
 
 export default UserDao;
+
+/* 🔎 ¿Por qué { new: true }?
+
+Porque si no lo ponés, Mongoose te devuelve el documento antes del update.
+
+Con { new: true } te devuelve el documento actualizado. */

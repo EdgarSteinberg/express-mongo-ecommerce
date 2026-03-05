@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['admin', 'premium', 'user'],
     default: 'user'
-  }
+  },
+  last_connection: { type: Date, default: Date.now }
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

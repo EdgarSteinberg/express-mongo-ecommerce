@@ -76,9 +76,14 @@ class UserService {
             }
 
             if (comparePassword(user, password)) {
-                delete user.password;
-                return jwt.sign(user, "coderSecret", { expiresIn: "2h" });
-            }
+
+                await userDao.lastConnectionDao(user._id);
+
+                const payload = new UserDTO(user);
+
+                return jwt.sign({ ...payload }, process.env.JWT_SECRET, { expiresIn: "2h" }); // 👈 {...payload} lo convierte en plain object
+            } 
+
             throw new Error(`Credenciales invalidas`);
         } catch (error) {
             throw new Error(`Error login ${error.message}`)

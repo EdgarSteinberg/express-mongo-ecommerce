@@ -22,3 +22,5 @@
 {"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:07:42.552Z"}
 {"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:27:27.605Z"}
 {"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:28:39.119Z"}
+{"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:31:51.917Z"}
+{"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:33:16.184Z"}

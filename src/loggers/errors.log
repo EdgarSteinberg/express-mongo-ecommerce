@@ -24,3 +24,4 @@
 {"level":"error","message":"Error al actualizar el role del usuario","timestamp":"2026-03-04T15:28:39.119Z"}
 {"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:31:51.917Z"}
 {"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:33:16.184Z"}
+{"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-03-12T16:50:11.850Z"}

@@ -166,7 +166,7 @@ class UserController {
 
     updatedRoleUser = async (req, res) => {
         try {
-            const { uid } = req.params
+            const { uid } = req.params;
 
             // 1️⃣ Buscar usuario real en DB
             const user = await userService.getUserById(uid)

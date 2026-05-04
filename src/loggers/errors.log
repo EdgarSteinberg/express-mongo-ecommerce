@@ -25,3 +25,10 @@
 {"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:31:51.917Z"}
 {"level":"error","message":"Error interno en login para marita@gmail.com: Error login Expected \"payload\" to be a plain object.","timestamp":"2026-03-05T14:33:16.184Z"}
 {"level":"error","message":"Error al generar la orden Error al generar la orden: Usuario no encontrado","timestamp":"2026-03-12T16:50:11.850Z"}
+{"level":"error","message":"Error interno en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-05-04T17:05:55.743Z"}
+{"level":"error","message":"Error interno en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-05-04T17:26:27.384Z"}
+{"level":"error","message":"Error interno en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-05-04T17:28:17.795Z"}
+{"level":"error","message":"Error interno en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-05-04T17:38:03.549Z"}
+{"level":"error","message":"Error interno en login para s.steinberg2019@gmail.com: Error login Credenciales invalidas","timestamp":"2026-05-04T17:39:49.796Z"}
+{"level":"warn","message":"Intento de login fallido - email: s.steinberg2019@gmail.com","timestamp":"2026-05-04T17:40:25.919Z"}
+{"level":"warn","message":"Intento de login fallido - email: s.steinberg2019@gmail.com","timestamp":"2026-05-04T17:41:04.117Z"}

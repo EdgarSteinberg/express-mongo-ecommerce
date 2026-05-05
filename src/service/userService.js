@@ -59,7 +59,7 @@ class UserService {
             });
             return result;
         } catch (error) {
-            throw new Error(`Error al registrar el usuario, ${error.message}`)
+            throw error;
         }
     }
 
@@ -82,7 +82,7 @@ class UserService {
                 const payload = new UserDTO(user);
 
                 return jwt.sign({ ...payload }, process.env.JWT_SECRET, { expiresIn: "2h" }); // 👈 {...payload} lo convierte en plain object
-            } 
+            }
 
             throw new Error(`Credenciales invalidas`);
         } catch (error) {

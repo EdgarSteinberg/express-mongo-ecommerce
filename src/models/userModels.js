@@ -26,7 +26,19 @@ const userSchema = new mongoose.Schema({
     match: [/^\S+@\S+\.\S+$/, "El email no es válido"]
   },
   age: { type: Number, min: 18, required: true },
-  password: { type: String, required: true },
+  /*  password: {
+     type: String,
+     required: [true, "La contraseña es obligatoria"],
+     minlength: [5, "La contraseña debe tener al menos 6 caracteres"]
+   }, */
+  password: {
+    type: String,
+    required: [true, "La contraseña es obligatoria"],
+    match: [
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/,
+      "Debe tener al menos 5 caracteres, una letra y un número"
+    ]
+  },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "carts",

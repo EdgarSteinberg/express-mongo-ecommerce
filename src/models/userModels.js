@@ -7,17 +7,23 @@ const userSchema = new mongoose.Schema({
     last_name: { type: String, minLength: 5, required: true }, */
   first_name: {
     type: String,
-    minlength: [5, "El nombre debe tener al menos 5 caracteres"]
+    required: [true, "El nombre es obligatorio"],
+    minlength: [5, "El nombre debe tener al menos 5 caracteres"],
+    match: [/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/, "El nombre solo puede contener letras"]
   },
   last_name: {
     type: String,
-    minlength: [5, "El apellido debe tener al menos 5 caracteres"]
+    required: [true, "El apellido es obligatorio"],
+    minlength: [5, "El apellido debe tener al menos 5 caracteres"],
+    match: [/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/, "El apellido solo puede contener letras"]
   },
   email: {
     type: String,
+    required: [true, "El email es obligatorio"],
     unique: true,
-    required: true,
-    match: [/^\S+@\S+\.\S+$/, 'Email inválido']
+    lowercase: true,
+    trim: true,
+    match: [/^\S+@\S+\.\S+$/, "El email no es válido"]
   },
   age: { type: Number, min: 18, required: true },
   password: { type: String, required: true },

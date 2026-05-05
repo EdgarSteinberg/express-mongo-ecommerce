@@ -3,8 +3,16 @@ import mongoose from "mongoose";
 const userCollection = 'users';
 
 const userSchema = new mongoose.Schema({
-  first_name: { type: String, minLength: 5, required: true },
-  last_name: { type: String, minLength: 5, required: true },
+  /*   first_name: { type: String, minLength: 5, required: true },
+    last_name: { type: String, minLength: 5, required: true }, */
+  first_name: {
+    type: String,
+    minlength: [5, "El nombre debe tener al menos 5 caracteres"]
+  },
+  last_name: {
+    type: String,
+    minlength: [5, "El apellido debe tener al menos 5 caracteres"]
+  },
   email: {
     type: String,
     unique: true,

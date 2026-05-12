@@ -34,10 +34,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "La contraseña es obligatoria"],
-    match: [
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/,
-      "La contraseña debe tener al menos 5 caracteres, una letra y un número"
-    ]
+    minlength: [5, "La contraseña debe tener al menos 6 caracteres"]
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,

@@ -37,12 +37,43 @@ class UserService {
             throw new Error(`Error al consultar usuario con ID:${uid} ${error.message}`);
         }
     }
-
+    /* 
+        async register(user) {
+            const { first_name, last_name, age, email, password, role } = user;
+    
+            if (!first_name || !last_name || !age || !email || !password) {
+                throw new Error(`Error al registrar el usuario`)
+            }
+    
+            try {
+                const cartId = await cartService.createCart();
+    
+                const result = await userDao.registerDao({
+                    first_name,
+                    last_name,
+                    email,
+                    age,
+                    role,
+                    password: createHash(password),
+                    cart: cartId
+                });
+                return result;
+            } catch (error) {
+                throw error;
+            }
+        } */
     async register(user) {
         const { first_name, last_name, age, email, password, role } = user;
 
         if (!first_name || !last_name || !age || !email || !password) {
-            throw new Error(`Error al registrar el usuario`)
+            throw new Error(`Error al registrar el usuario`);
+        }
+
+        // ✅ VALIDACIÓN ACÁ
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{5,}$/;
+
+        if (!passwordRegex.test(password)) {
+            throw new Error("La contraseña debe tener al menos 5 caracteres, una letra y un número");
         }
 
         try {
@@ -54,9 +85,10 @@ class UserService {
                 email,
                 age,
                 role,
-                password: createHash(password),
+                password: createHash(password), // 🔒 recién acá hasheás
                 cart: cartId
             });
+
             return result;
         } catch (error) {
             throw error;

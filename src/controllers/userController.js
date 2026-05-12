@@ -101,11 +101,7 @@ class UserController {
             const result = await userService.register(req.body);
             logger.info(`Usuario registrado correctamente: UID=${result._id}, email=${result.email}`);
             res.status(201).json({ status: 'success', payload: result });
-        } /* catch (error) {
-            logger.error(`Error al registrar el usuario: ${error.message}`);
-            res.status(400).json({ status: 'error', message: error.message });
-        }  */
-        catch (error) {
+        } catch (error) {
 
             logger.error({
                 message: error.message,
@@ -132,12 +128,20 @@ class UserController {
                 });
             }
 
+            // 🔥 ESTE ES EL QUE TE FALTABA
+            if (error instanceof Error) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
             return res.status(500).json({
                 status: 'error',
                 message: 'Error interno del servidor'
             });
         }
-    };
+    }
 
     login = async (req, res) => {
         const { email } = req.body;
